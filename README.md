@@ -22,6 +22,17 @@
   <ul>
     <li>Id del usuario</li>
     <li>Id del pedido</li>
+     <li>código del producto</li>
+     <li>Descripción del cliente</li>
     <li>Monto total de ventas</li>
   </ul>
+</ul>
+
+<h3>Instalación</h3>
+<br>
+<ul>
+  <li>Clonar el proyecto</li>
+  <li>Configurar la base de datos, si desea cambiar de motor de base datos, por defecto trabaja con H2</li>
+  <li>Cambiar las credenciales de autenticación de Handy</li>
+  <li>Ejecutar la aplicación</li>
 </ul>
