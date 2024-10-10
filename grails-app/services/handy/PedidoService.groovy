@@ -33,11 +33,9 @@ class PedidoService {
 
     def saveOrdersToDB(List orders){
         orders.each {orderData ->
-//            def existingOrder = Orden.findById(orderData.id as Long)
 
             def product = orderData.items?.get(0)?.product // data product
             def customer = orderData.customer
-//            def createBy = orderData.createdBy
 
             new Pedido(
                   id_order: orderData.id as Long,
@@ -47,6 +45,21 @@ class PedidoService {
                     totalSales: product.price * product.quantity
             ).save(flush: true)
 
+        }
+    }
+
+    def deleteOrders(){
+        def apiOrders = ordersFromHandy.collect{
+            it.id as Long
+        }
+
+        def savedOrders = Pedido.findAll()
+
+        savedOrders.each {savedOrder ->
+            if(!apiOrders.contains(savedOrders.id_order)){
+                log.info("Eliminando orden ${savedOrder.id_order}")
+                savedOrder.delete(flush: true)
+            }
         }
     }
 }
