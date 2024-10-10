@@ -1,8 +1,11 @@
 package handy
 
+import grails.gorm.transactions.Transactional
+import groovy.util.logging.Slf4j
 import org.springframework.http.HttpStatus
 
-
+@Slf4j
+@Transactional
 class PedidoController {
 
     PedidoService pedidoService
@@ -19,7 +22,7 @@ class PedidoController {
     }
 
     def ordersLocal(){
-        def response = syncOrderService.syncOrders()
+//        def response = syncOrderService.syncOrders()
 
         def orders = Pedido.list()
 

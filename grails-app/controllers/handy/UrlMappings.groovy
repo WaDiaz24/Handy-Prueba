@@ -10,8 +10,8 @@ class UrlMappings {
         patch "/$controller/$id(.$format)?"(action:"patch")
         "/"(controller: 'application', action:'index')
 
-        "/handy/orders"(controller: 'pedido', action:'getOrdersFromHandy', method: 'GET')
-        "/local/orders"(controller: 'pedido', action:'ordersLocal', method: 'GET')
+        "/handy/orders"(controller: 'pedido', action:'getOrdersFromHandy', method: 'GET') // http://localhost:8080/handy/orders
+        "/local/orders"(controller: 'pedido', action:'ordersLocal', method: 'GET') // ruta http://localhost:8080/local/orders
 
         "500"(view:'/error')
         "404"(view:'/notFound')
