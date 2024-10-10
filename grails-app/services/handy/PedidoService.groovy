@@ -30,4 +30,23 @@ class PedidoService {
             return "ERROR en la solicitud: ${response.message()}"
         }
     }
+
+    def saveOrdersToDB(List orders){
+        orders.each {orderData ->
+//            def existingOrder = Orden.findById(orderData.id as Long)
+
+            def product = orderData.items?.get(0)?.product // data product
+            def customer = orderData.customer
+//            def createBy = orderData.createdBy
+
+            new Pedido(
+                  id_order: orderData.id as Long,
+                  id_user: orderData.id as Long,
+                    descriptionCustomer: customer.description,
+                    productCode: product.code,
+                    totalSales: product.price * product.quantity
+            ).save(flush: true)
+
+        }
+    }
 }
