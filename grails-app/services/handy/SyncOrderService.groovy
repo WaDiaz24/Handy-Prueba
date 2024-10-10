@@ -22,5 +22,7 @@ class SyncOrderService {
 
         def result = pedidoService.saveOrdersToDB(ordersList as List)
         println("Resultado"+result)
+
+        pedidoService.deleteOrders(ordersList as List)
     }
 }
