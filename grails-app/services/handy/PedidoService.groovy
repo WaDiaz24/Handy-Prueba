@@ -1,11 +1,13 @@
 package handy
 
-import groovy.transform.CompileStatic
+import grails.gorm.transactions.Transactional
+import groovy.util.logging.Slf4j
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 
-
+@Slf4j
+@Transactional
 class PedidoService {
 
     def getOrdersFromHandy() {
@@ -48,15 +50,15 @@ class PedidoService {
         }
     }
 
-    def deleteOrders(){
-        def apiOrders = ordersFromHandy.collect{
+    def deleteOrders(List ordersFromApi){
+        def apiOrders = ordersFromApi.collect{
             it.id as Long
         }
 
         def savedOrders = Pedido.findAll()
 
         savedOrders.each {savedOrder ->
-            if(!apiOrders.contains(savedOrders.id_order)){
+            if(!apiOrders.contains(savedOrder.id_order)){
                 log.info("Eliminando orden ${savedOrder.id_order}")
                 savedOrder.delete(flush: true)
             }

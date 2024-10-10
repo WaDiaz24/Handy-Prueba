@@ -2,6 +2,7 @@ package handy
 
 class Pedido {
 
+    Long id
     Long id_order
     Long id_user
     String descriptionCustomer
@@ -9,7 +10,7 @@ class Pedido {
     BigDecimal totalSales
 
     static mapping = {
-        id_order column: 'id_order'
+        version false
     }
 
     static constraints = {
