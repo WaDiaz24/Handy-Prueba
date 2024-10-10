@@ -11,6 +11,7 @@ class UrlMappings {
         "/"(controller: 'application', action:'index')
 
         "/handy/orders"(controller: 'pedido', action:'getOrdersFromHandy', method: 'GET')
+        "/local/orders"(controller: 'pedido', action:'ordersLocal', method: 'GET')
 
         "500"(view:'/error')
         "404"(view:'/notFound')
