@@ -11,20 +11,19 @@ import org.springframework.scheduling.annotation.Scheduled
 @EnableScheduling
 class SyncOrderService {
 
-    PedidoService pedidoService
+    OrderService orderService
+    static final long syncInterval = 10000L // milisegundos
 
-    @Scheduled(fixedDelay = 600000L)
+    @Scheduled(fixedDelay = syncInterval)
     def syncOrders(){
-        def orderJson = pedidoService.getOrdersFromHandy()
-        log.info("Ordenes obtenidas de Handy: ${orderJson}")
+        def orderApiJson = orderService.getOrdersFromHandy()
+        def ordersList = new JsonSlurper().parseText(orderApiJson).salesOrders as List
+        log.info("${ordersList.size()} Ordenes obtenidas de Handy")
 
-        def ordersList = new JsonSlurper().parseText(orderJson).salesOrders
-        log.info("Ordenes obtenidas de Handy en lista: ${ordersList}")
+        orderService.saveOrdersToDB(ordersList)
+        log.info("${Order.count()} Ordenes se encuentran guardadas en la base de datos local")
 
-        def result = pedidoService.saveOrdersToDB(ordersList as List)
-        log.info("Ordenes guardadas en la base de datos local: ${result}")
-
-        def deleteOrdersResult = pedidoService.deleteOrders(ordersList as List)
-        log.info("Ordenes eliminadas en la base de datos local: ${deleteOrdersResult}")
+        def deleteOrdersResult = orderService.deleteOrders(ordersList)
+        log.info("${deleteOrdersResult} Ordenes eliminadas en la base de datos local")
     }
 }

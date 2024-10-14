@@ -3,7 +3,7 @@ package handy
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-class PedidoServiceSpec extends Specification implements ServiceUnitTest<PedidoService> {
+class OrderServiceSpec extends Specification implements ServiceUnitTest<OrderService> {
 
      void "test something"() {
         expect:

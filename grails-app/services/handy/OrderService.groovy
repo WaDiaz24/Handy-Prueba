@@ -8,28 +8,26 @@ import okhttp3.Response
 
 @Slf4j
 @Transactional
-class PedidoService {
+class OrderService {
 
     def getOrdersFromHandy() {
         def apiUrl = "https://hub.handy.la/api/v2/salesOrder"
-        def apiToken = "Bearer sbujadsavf5fr7hq0asjv0kp97uiie6c"
+        String apiToken = System.getProperty('API_TOKEN')
 
         OkHttpClient client = new OkHttpClient()
 
         Request request = new Request.Builder()
                 .url(apiUrl)
-                .addHeader("Authorization", apiToken)
+                .addHeader("Authorization", "Bearer ${apiToken}")
                 .build()
 
         Response response = client.newCall(request).execute()
 
         if(response.isSuccessful()){
-            String responseBody = response.body().string()
-            log.info("Datos de pedidos: ${responseBody}")
-            return responseBody
+            log.info("Datos de pedidos obtenidos con éxito")
+            return response.body().string()
         }else{
             log.error("Error en la solicitud: ${response.code()} -- ${response.message()}")
-            return "ERROR en la solicitud: ${response.message()}"
         }
     }
 
@@ -39,29 +37,33 @@ class PedidoService {
             def product = orderData.items?.get(0)?.product // data product
             def customer = orderData.customer
 
-            new Pedido(
-                  id_order: orderData.id as Long,
-                  id_user: orderData.id as Long,
+            Order order = new Order(
+                  id_order: orderData.id,
+                  id_user: customer.id,
                     descriptionCustomer: customer.description,
                     productCode: product.code,
                     totalSales: product.price * product.quantity
-            ).save(flush: true)
-
+            )
+            if(order.save(flush: true)){
+                log.info("Pedido agregado en la base de datos local con el ID: ${order?.id}")
+            }
         }
     }
 
     def deleteOrders(List ordersFromApi){
-        def apiOrders = ordersFromApi.collect{
+        int deletedCount = 0
+
+        def apiOrdersIds = ordersFromApi.collect{
             it.id as Long
         }
 
-        def savedOrders = Pedido.findAll()
+        def savedOrders = Order.findAllById_orderNotInList(apiOrdersIds)
 
-        savedOrders.each {savedOrder ->
-            if(!apiOrders.contains(savedOrder.id_order)){
-                log.info("Eliminando orden ${savedOrder.id_order}")
-                savedOrder.delete(flush: true)
-            }
+        savedOrders.each { orderToDelete ->
+            log.info("Eliminando orden ${orderToDelete.id_order}")
+            orderToDelete.delete(flush: true)
+            deletedCount++
         }
+        return deletedCount
     }
 }

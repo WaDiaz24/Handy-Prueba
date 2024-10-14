@@ -33,6 +33,13 @@
 <ul>
   <li>Clonar el proyecto</li>
   <li>Configurar la base de datos, si desea cambiar de motor de base datos, por defecto trabaja con H2</li>
-  <li>Cambiar las credenciales de autenticación de Handy</li>
+  <li>Cambiar las credenciales de autenticación de Handy con los siguientes pasos</li>
+  <ul>
+    <li>Crear un archivo .env en la raíz del proyecto.</li>
+    <li>DDentro del archivo, definir una variable de entorno.</li>
+    <li>La variable debe llamarse API_TOKEN.</li>
+    <li>Después de API_TOKEN, agregar el signo "="</li>
+    <li>A continuación, escribir tu token de usuario de Handy.</li>
+  </ul>
   <li>Ejecutar la aplicación</li>
 </ul>
