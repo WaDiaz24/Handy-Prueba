@@ -3,7 +3,7 @@ package handy
 import grails.testing.web.controllers.ControllerUnitTest
 import spock.lang.Specification
 
-class PedidoControllerSpec extends Specification implements ControllerUnitTest<PedidoController> {
+class OrderControllerSpec extends Specification implements ControllerUnitTest<OrderController> {
 
      void "test index action"() {
         when:

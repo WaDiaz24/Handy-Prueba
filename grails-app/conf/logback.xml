@@ -12,6 +12,8 @@
         </encoder>
     </appender>
 
+    <logger name="org.hibernate.orm.deprecation" level="ERROR" />
+
     <root level="error">
         <appender-ref ref="STDOUT" />
     </root>
