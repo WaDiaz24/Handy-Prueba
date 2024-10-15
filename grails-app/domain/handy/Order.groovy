@@ -1,6 +1,6 @@
 package handy
 
-class Pedido {
+class Order {
 
     Long id
     Long id_order
@@ -11,6 +11,7 @@ class Pedido {
 
     static mapping = {
         version false
+        table 'order_table'
     }
 
     static constraints = {
